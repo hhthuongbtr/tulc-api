@@ -7,7 +7,7 @@ type Server struct {
 	Port    int16 `yaml:"port"`
 	Gateway string `yaml:"gateway"`
 	ServerListFilePath	string	`yaml:"server_list_file_path"`
-	ServerListFilePathForStaging	string	`yanl:"server_list_file_path_for_staging"`
+	ServerListFilePathForStaging	string	`yaml:"server_list_file_path_for_staging"`
 }
 
 type PartnerApi struct{

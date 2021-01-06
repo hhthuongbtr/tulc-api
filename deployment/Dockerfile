@@ -6,6 +6,7 @@ RUN touch /opt/tulc/serverlist
 RUN mkdir -p /opt/tulc
 ADD application.yml /opt/tulc/application.yml
 ADD serverlist /opt/tulc/serverlist
+ADD serverlistforwebpay /opt/tulc/serverlistforwebpay
 
 RUN mkdir /app
 WORKDIR /app

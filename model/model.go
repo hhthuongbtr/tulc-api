@@ -1,5 +1,7 @@
 package model
 
+import "encoding/json"
+
 type ApiServerResponse struct {
 	Count	int `json:"count"`
 	ReturnMessage	string `json:"returnMessage"`
@@ -34,4 +36,20 @@ type ServerListElement struct {
 	}	`json:"info" yaml:"info"`
 	ServerID	string	`json:"serverID" yaml:"serverID"`
 	ServerName	string	`json:"serverName" yaml:"serverName"`
+}
+
+func (svlrsp *ServerListResponse) GetJsonString() (JsonString string, err error) {
+	b, err := json.Marshal(svlrsp)
+	if err != nil {
+		return "", err
+	}
+	return string(b), nil
+}
+
+func (svlrsp *ServerListResponse) LoadFromJsonString(JsonString string) (err error) {
+	err = json.Unmarshal([]byte(JsonString), svlrsp)
+	if err != nil {
+		return err
+	}
+	return
 }

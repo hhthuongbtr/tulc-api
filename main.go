@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"flag"
 	"fmt"
+	"gopkg.in/yaml.v2"
 	"log"
 	"os"
 	"time"
@@ -22,6 +23,7 @@ type WebProxy struct {
 	UriApiFromPartner	string	`json:"uri_api_from_partner"`
 	SecretKey	string	`json:"secret_key"`
 	ServerlistFilePath	string	`json:"serverlist_file_path"`
+	ServerListFilePathForStaging	string	`json:"server_list_file_path_for_staging"`
 	ConcurrencyThread int	`json:"concurrency_thread"`
 }
 
@@ -52,6 +54,7 @@ func main()  {
 			UriApiFromPartner: *uriPtr,
 			SecretKey: conf.PartnerApi.SecretKey,
 			ServerlistFilePath: conf.Server.ServerListFilePath,
+			ServerListFilePathForStaging: conf.Server.ServerListFilePathForStaging,
 			ConcurrencyThread: concurrencyThread,
 		}
 		server := initializeServer()
@@ -119,7 +122,11 @@ func setupRoute(server *gin.Engine, webContext *WebProxy) {
 		{
 			users.GET("", webContext.getCCU)
 		}
-
+	}
+	webpay := server.Group("/getServers")
+	{
+		webpay.GET("", webContext.getServers)
+		webpay.POST("", webContext.getServers)
 	}
 }
 
@@ -153,6 +160,34 @@ func (w *WebProxy) getCCU(ctx *gin.Context) {
 		return
 	}
 	responseMessage, err2 := GetResponeApiJson(ccuRespone)
+	if err2 != nil {
+		ctx.String(500, err.Error())
+		return
+	}
+	ctx.String(200, responseMessage)
+	return
+}
+
+
+func (w *WebProxy) getServers(ctx *gin.Context) {
+	var responseMessage string
+	var severList model.ServerListResponse
+	svlistFile := utils.MyFile{Path:w.ServerListFilePathForStaging}
+	yamlFile, err := svlistFile.Read()
+	if err != nil {
+		log.Printf("yamlFile.Get err #%v ", err)
+		ctx.String(500, err.Error())
+		return
+	}
+	err = yaml.Unmarshal([]byte(yamlFile), &severList)
+	if err != nil {
+		log.Fatalf("Unmarshal: %v", err)
+		ctx.String(500, err.Error())
+		return
+	}
+	log.Printf("Serverlist %#v", severList)
+
+	responseMessage, err2 := severList.GetJsonString()
 	if err2 != nil {
 		ctx.String(500, err.Error())
 		return
