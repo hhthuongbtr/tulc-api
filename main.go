@@ -185,7 +185,7 @@ func (w *WebProxy) getServers(ctx *gin.Context) {
 		ctx.String(500, err.Error())
 		return
 	}
-	log.Printf("Serverlist %#v", severList)
+	//log.Printf("Serverlist %#v", severList)
 
 	responseMessage, err2 := severList.GetJsonString()
 	if err2 != nil {
