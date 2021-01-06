@@ -4,7 +4,7 @@ import (
 	"gopkg.in/yaml.v2"
 	"io/ioutil"
 	"log"
-	"../utils"
+	"github.com/hhthuongbtr/tulc-api/utils"
 )
 
 

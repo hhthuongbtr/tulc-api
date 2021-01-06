@@ -1,8 +1,8 @@
 package worker
 
 import (
-	"../model"
-	"../utils"
+	"github.com/hhthuongbtr/tulc-api/model"
+	"github.com/hhthuongbtr/tulc-api/utils"
 	"encoding/json"
 	"fmt"
 	"sync"

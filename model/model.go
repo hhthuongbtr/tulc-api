@@ -20,4 +20,18 @@ type CcuResponse struct {
 	ServerList	[]CCU	`json:"server_list"`
 }
 
+type ServerListResponse struct {
+	ReturnMessage	string	`json:"returnMessage" yaml:"returnMessage"`
+	ReturnCode	int	`json:"returnCode" yaml:"returnCode"`
+	Data map[string]ServerListElement	`json:"data" yaml:"data"`
+}
 
+type ServerListElement struct {
+	Status	int	`json:"status" yaml:"status"`
+	Info struct{
+		MergeTargetServerID int `json:"merge_target_server_id" yaml:"merge_target_server_id"`
+		OpenTime	int	`json:"open_time" yaml:"open_time"`
+	}	`json:"info" yaml:"info"`
+	ServerID	string	`json:"serverID" yaml:"serverID"`
+	ServerName	string	`json:"serverName" yaml:"serverName"`
+}

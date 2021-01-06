@@ -8,12 +8,12 @@ import (
 	"log"
 	"os"
 	"time"
-	"./model"
-	"./utils"
+	"github.com/hhthuongbtr/tulc-api/model"
+	"github.com/hhthuongbtr/tulc-api/utils"
 	"github.com/gin-gonic/gin"
 	"github.com/gin-contrib/cors"
-	"./configuration"
-	"./worker"
+	"github.com/hhthuongbtr/tulc-api/configuration"
+	"github.com/hhthuongbtr/tulc-api/worker"
 )
 
 type WebProxy struct {
